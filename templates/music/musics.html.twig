@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}mes musiques{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {{ encore_entry_script_tags('musics') }}
+ {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Mes musiques</h4>
+                    </div>
+                    <div class="content" >
+                        <table class="table table-striped" style="width=50%" id="musiques">
+                            <thead>
+                            <tr>
+                                <th></th><th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for cp in musics %}
+                                <tr>
+                                    <td>{{cp.title}}</td><td><a href="{{ path('app_music_detail', { 'id': cp.id }) }}"><i class="ti-search"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id="message" class="{{ message }}"></div>
+{% endblock %}

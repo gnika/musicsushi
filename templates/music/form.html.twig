@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}ajouter ma musique{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+    <div class="header">
+        <div style="background-color:#e5e9ed">
+            <h4 style="padding: 10px;" class="title">Ma musique</h4>
+        </div>
+    </div>
+    <div class="content ">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+                <div class="form-group">
+                        {{ form_label(form.title) }}
+                        {{ form_widget(form.title) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+                <div class="form-group">
+                    {{ form_label(form.file) }}
+                    {{ form_widget(form.file) }}
+                </div>
+            </div>
+
+        </div>
+            <div class="text-center">
+                {{ form_widget(form.Enregistrer) }}
+            </div>
+        </div>
+    </div>
+    {{ form_row(form._token) }}
+    {{ form_end(form) }}
+
+{% endblock %}

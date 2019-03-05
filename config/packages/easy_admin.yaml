@@ -1,0 +1,30 @@
+easy_admin:
+    entities:
+        Product:
+            class: App\Entity\Product
+            list:
+#                dql_filter: "entity.title = 'produit 4'"
+#                dql_filter: "entity.User = :user"
+                fields:
+                    - { property: 'image', type: 'image', base_path: '%app.path.product_images%' }
+                    - { property: 'description', type: 'text' }
+                    - { property: 'title', type: 'string' }
+                    - { property: 'user.email' }
+            form:
+                fields:
+
+                    - { property: 'title', label: 'Titre du produit' }
+                    - { property: 'description', label: 'Description du produit' }
+                    - { property: 'imageFile', type: 'vich_image' }
+        Users:
+            class: App\Entity\Users
+#            controller: App\Controller\UsersController
+            form:
+                fields:
+                    - { property: 'email', type: 'email' }
+                    - { property: 'password', type: 'text' }
+#                    - { type: 'choice', type_options: { choices: { 'USER': 'ROLE_USER', 'ADMIN': 'ROLE_ADMIN' } } }
+#                    - { property: 'roles', type: 'App\Form\Type\JsonType'}
+#                    - { property: 'roles', type: 'App\Form\Type\JsonType', type_options: { choices: { 'USER': 'ROLE_USER', 'ADMIN': 'ROLE_ADMIN' } }}
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: {'SUPER ADMIN': 'ROLE_SUPER_ADMIN', 'ADMIN': 'ROLE_ADMIN', 'GUEST': 'ROLE_GUEST' } } }
+

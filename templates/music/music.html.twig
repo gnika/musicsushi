@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ music.title }}{% endblock %}
+ {% block javascripts %}
+     {{ parent() }}
+     {{ encore_entry_script_tags('music') }}
+ {% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <div style="background-color:#e5e9ed">
+                            <h4 style="padding: 10px;" class="title">{{ music.title }}</h4>
+                        </div>
+                    </div>
+                    <div class="content" >
+                        <audio class="justwave" width="450" height="100" data-chained="1" data-wave_color="#FF871E" data-prog_color="#10FF1D" data-buttoncolor="#00A588">
+                            <source src="{{ asset('musics/dre.mp3') }}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
