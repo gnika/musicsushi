@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,6 +40,31 @@ class Music
      * )
      */
     private $file;
+
+    // Notice the "cascade" option below, this is mandatory if you want Doctrine to automatically persist the related entity
+    /**
+     * @ORM\OneToMany(targetEntity="CommentMusic", mappedBy="music", cascade={"persist"})
+     */
+    public $commentMusics;
+
+    public function __construct()
+    {
+        $this->commentMusics = new ArrayCollection(); // Initialize $offers as an Doctrine collection
+    }
+
+    // Adding both an adder and a remover as well as updating the reverse relation are mandatory
+    // if you want Doctrine to automatically update and persist (thanks to the "cascade" option) the related entity
+    public function addCommentMusic(CommentMusic $commentMusic): void
+    {
+        $commentMusic->music = $this;
+        $this->commentMusics->add($commentMusic);
+    }
+
+    public function removeCommentMusic(CommentMusic $commentMusic): void
+    {
+        $commentMusic->music = null;
+        $this->commentMusics->removeElement($commentMusic);
+    }
 
     public function getId(): ?int
     {

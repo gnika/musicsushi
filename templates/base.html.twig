@@ -36,19 +36,21 @@
                     <a class="nav-link"  href="{{ path('app_logout') }}">Se déconnecter</a>
                 </li>
                 {% endif %}
+                {% if is_granted('ROLE_USER') %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Musiques
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if is_granted('ROLE_USER') %}
+
                         <a class="dropdown-item" href="{{ path('app_form_music') }}">Ajouter une musique</a>
-                        {% endif %}
+
                         <a class="dropdown-item" href="{{ path('app_list_music') }}">Liste de mes musiques</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a class="nav-link disabled" href="{{ path('easyadmin') }}">Admin</a>

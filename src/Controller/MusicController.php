@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 
+use App\Entity\CommentMusic;
 use App\Entity\Music;
+use App\Form\CommentMusicType;
 use App\Form\MusicType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -75,9 +77,20 @@ class MusicController extends AbstractController
      */
     public function musicdetail(Request $request, $id)
     {
-        $music = $em = $this->getDoctrine()->getRepository('App\Entity\Music')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $music = $this->getDoctrine()->getRepository('App\Entity\Music')->find($id);
+        $commentMusic = new CommentMusic();
+        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        $form = $this->createForm(CommentMusicType::class, $commentMusic, ['music' => $music, 'users' => $currentUser]);
 
-        return $this->render('music/music.html.twig', array('music'=>$music));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($commentMusic);
+            $em->flush();
+        }
+
+        return $this->render('music/music.html.twig', array('music'=> $music, 'form'=> $form->createView()));
     }
 
 

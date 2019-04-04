@@ -46,6 +46,11 @@ class Users implements UserInterface
     private $products;
 
     /**
+     * @ORM\OneToMany(targetEntity="CommentMusic", mappedBy="User")
+     */
+    private $commentMusics;
+
+    /**
      * @ORM\OneToMany(targetEntity="Music", mappedBy="User")
      */
     private $musics;
@@ -54,6 +59,20 @@ class Users implements UserInterface
     {
         $this->products = new ArrayCollection();
         $this->musics = new ArrayCollection();
+        $this->commentMusics = new ArrayCollection();
+    }
+    // Adding both an adder and a remover as well as updating the reverse relation are mandatory
+    // if you want Doctrine to automatically update and persist (thanks to the "cascade" option) the related entity
+    public function addCommentMusic(CommentMusic $commentMusic): void
+    {
+        $commentMusic->music = $this;
+        $this->commentMusics->add($commentMusic);
+    }
+
+    public function removeCommentMusic(CommentMusic $commentMusic): void
+    {
+        $commentMusic->music = null;
+        $this->commentMusics->removeElement($commentMusic);
     }
 
     /**
