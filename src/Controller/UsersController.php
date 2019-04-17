@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Users;
+use App\Form\MyType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 
@@ -133,5 +137,28 @@ class UsersController extends BaseAdminController
 //        );
 //
 //        return $this->executeDynamicMethod('renderUsersTemplate', array('new', $this->entity['templates']['new'], $parameters));
+    }
+
+
+    /**
+     * @Route("/addFriends", name="app_form_friends")
+     */
+    public function addFriends(Request $request)
+    {
+
+        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
+        $form = $this->createForm(MyType::class, $currentUser, [ 'emailUser' => $currentUser->getEmail() ] );
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($currentUser);
+            $em->flush();
+        }
+
+        return $this->render('users/add.html.twig', array('form'=> $form->createView()));
     }
 }

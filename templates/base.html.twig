@@ -43,6 +43,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
+                        <a class="dropdown-item" href="{{ path('app_form_friends') }}">Ajouter un ami</a>
                         <a class="dropdown-item" href="{{ path('app_form_music') }}">Ajouter une musique</a>
 
                         <a class="dropdown-item" href="{{ path('app_list_music') }}">Liste de mes musiques</a>
@@ -66,12 +67,13 @@
 
 
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+            {% block contenthead %}{% endblock %}
+           <!-- <h1 class="display-3">Hello, world!</h1>
+            <p>This is a template for a simple marketing or informational website.</p>
             <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+            -->
         </div>
     </div>
 
@@ -111,7 +113,7 @@
         <hr>
 
         <footer>
-            <p>© Company 2017</p>
+            <p>© MusicSushi 2019</p>
         </footer>
 
 

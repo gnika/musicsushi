@@ -23,7 +23,7 @@ class CommentMusic
     private $comment;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float", length=15)
      */
     private $timeMusic;
 

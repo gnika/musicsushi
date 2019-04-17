@@ -5,20 +5,19 @@
      {{ parent() }}
      {{ encore_entry_script_tags('musics') }}
  {% endblock %}
-
+{% block contenthead %}
+    <h1 class="display-4">Mes musiques</h1>
+{% endblock %}
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="container">
                 <div class="card">
-                    <div class="header">
-                        <h4 class="title">Mes musiques</h4>
-                    </div>
                     <div class="content" >
                         <table class="table table-striped" style="width=50%" id="musiques">
                             <thead>
                             <tr>
-                                <th></th><th></th>
+                                <th>Musique</th><th>Détail</th>
                             </tr>
                             </thead>
                             <tbody>

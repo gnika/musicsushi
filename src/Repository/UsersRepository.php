@@ -19,6 +19,14 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
+    public function otherEmail($email){
+
+        $qb = $this->createQueryBuilder('s')
+            ->where('s.email != :mail')
+            ->setParameter('mail', $email);
+        return $qb;
+    }
+
     // /**
     //  * @return Users[] Returns an array of Users objects
     //  */

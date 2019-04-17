@@ -55,12 +55,137 @@ class Users implements UserInterface
      */
     private $musics;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Users", mappedBy="users_friendasks")
+     */
+    private $users_friends;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Users", inversedBy="users_friends")
+     * @ORM\JoinTable(name="users_friendask",
+     *     joinColumns={@ORM\JoinColumn(name="users_child_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="users_friendask_id", referencedColumnName="id")}
+     * )
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $users_friendasks;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->musics = new ArrayCollection();
         $this->commentMusics = new ArrayCollection();
+        $this->users_friendasks = new ArrayCollection();
+        $this->users_friends = new ArrayCollection();
     }
+
+
+    /**
+     * Add users_friend.
+     *
+     * @param Users $users_friend
+     *
+     * @return Users
+     */
+    public function addUsersFriend(Users $users_friend)
+    {
+        if($this->users_friends->contains($users_friend))
+            return $this;
+        $this->users_friends[] = $users_friend;
+        $users_friend->addUsersFriendask($this);
+        return $this;
+    }
+
+    /**
+     * Remove users_friend
+     *
+     * @param Users $users_friend
+     * @return Users
+     */
+    public function removeUsersFriend(Users $users_friend)
+    {
+        if(!$this->users_friends->contains($users_friend))
+            return $this;
+        $this->users_friends->removeElement($users_friend);
+        $users_friend->removeUsersFriendask($this);
+        return $this;
+    }
+
+    /**
+     * Add users_friend.
+     *
+     * @param Users $users_friendasks
+     *
+     * @return Users
+     */
+    public function addUsersFriendask(Users $users_friendask)
+    {
+        if($this->users_friendasks->contains($users_friendask))
+            return $this;
+        $this->users_friendasks[] = $users_friendask;
+        $users_friendask->addUsersFriend($this);
+        return $this;
+    }
+
+    /**
+     * Remove users_friendask
+     *
+     * @param Users $users_friendask
+     * @return Users
+     */
+    public function removeUsersFriendask(Users $users_friendask)
+    {
+        if(!$this->users_friendasks->contains($users_friendask))
+            return $this;
+        $this->users_friendasks->removeElement($users_friendask);
+        $users_friendask->removeUsersFriend($this);
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getUsersFriendasks(): Collection
+    {
+        return $this->users_friendasks;
+    }
+
+    /**
+     * @param Collection $users_friendasks
+     * @return Users
+     */
+    public function setUsersFriendask(Collection $users_friendasks): self
+    {
+        $this->users_friendasks = $users_friendasks;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsersFriends()
+    {
+        return $this->users_friends;
+    }
+
+    /**
+     * @param mixed users_friends
+     * @return Users
+     */
+    public function setUsersFriends($users_friends): self
+    {
+        $this->users_friends = $users_friends;
+        return $this;
+    }
+
+
+
+
+
+
+
+
+
     // Adding both an adder and a remover as well as updating the reverse relation are mandatory
     // if you want Doctrine to automatically update and persist (thanks to the "cascade" option) the related entity
     public function addCommentMusic(CommentMusic $commentMusic): void

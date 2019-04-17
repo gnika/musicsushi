@@ -32,8 +32,9 @@ class CommentMusicType extends AbstractType
         ])
         ->add('timeMusic', TextType::class, [
             'label' => 'temps musique',
+            'required' => false,
             'attr' => array(
-                'class' => 'form-control border-input'
+                'class' => 'hidden'
             )
         ])
         ->add('users', EntityType::class, [
@@ -41,7 +42,7 @@ class CommentMusicType extends AbstractType
             'choice_label' => 'email',
             'data'         => $currentUser,
             'attr' => array(
-                'class' => 'd-none'
+                'class' => 'hidden'
             )
          ])
         ->add('music', EntityType::class, [
@@ -49,7 +50,7 @@ class CommentMusicType extends AbstractType
             'choice_label' => 'title',
             'data'         => $music,
             'attr' => array(
-               'class' => 'd-none'
+               'class' => 'hidden'
              )
          ])
 

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}ajouter un ami{% endblock %}
+
+{% block contenthead %}
+    <h1 class="display-4">Ajouter un ami</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="content ">
+            {{ form_start(form) }}
+
+                {{ form_widget(form.users_friendasks) }}
+            <br/>
+                {{ form_widget(form.Enregistrer) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

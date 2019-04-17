@@ -25,14 +25,14 @@ class MusicType extends AbstractType
 //        foreach($pays as $pp)
 //            $result[$pp->getPaysFr()] = $pp->getPaysFr();
         $builder->add('title', TextType::class, [
-            'label' => 'title',
+            'label' => 'titre de la musique',
             'required' => false,
             'attr' => array(
                 'class' => 'form-control border-input'
             ),
         ])
         ->add('file', FileType::class, [
-            'label' => 'music file',
+            'label' => 'Fichier mp3',
             'attr' => array(
                 'class' => 'form-control border-input'
             )

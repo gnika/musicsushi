@@ -4,3 +4,10 @@ body {
 .hidden{
     display: none;
 }
+.musicNote{
+    cursor: pointer;
+    font-size: 1.2em;
+}
+.jumbotron{
+    padding: 2rem 1rem;
+}

@@ -19,6 +19,12 @@ easy_admin:
         Users:
             class: App\Entity\Users
 #            controller: App\Controller\UsersController
+            list:
+            #                dql_filter: "entity.title = 'produit 4'"
+            #                dql_filter: "entity.User = :user"
+                fields:
+                    - { property: 'email', type: 'email' }
+                    - { property: 'roles', type: 'json' }
             form:
                 fields:
                     - { property: 'email', type: 'email' }
@@ -27,4 +33,6 @@ easy_admin:
 #                    - { property: 'roles', type: 'App\Form\Type\JsonType'}
 #                    - { property: 'roles', type: 'App\Form\Type\JsonType', type_options: { choices: { 'USER': 'ROLE_USER', 'ADMIN': 'ROLE_ADMIN' } }}
                     - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: {'SUPER ADMIN': 'ROLE_SUPER_ADMIN', 'ADMIN': 'ROLE_ADMIN', 'GUEST': 'ROLE_GUEST' } } }
+                    - { property: 'apiToken', type: 'text' }
+
 

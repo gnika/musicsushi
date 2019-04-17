@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\CommentMusic;
 use App\Entity\Music;
+use App\Entity\Users;
 use App\Form\CommentMusicType;
 use App\Form\MusicType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,7 @@ class MusicController extends AbstractController
     {
         $music = new Music();
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
         $form = $this->createForm(MusicType::class, $music);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -63,6 +65,10 @@ class MusicController extends AbstractController
     public function listmusic(Request $request)
     {
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
+        $user = $this->getDoctrine()->getRepository('App\Entity\Users')->find($currentUser->getId());
+
+        dump($user);
         $musics = $em = $this->getDoctrine()->getRepository('App\Entity\Music')->findBy(array('User' => $currentUser));
        if( isset($_GET['message']) )
            $msg = $_GET['message'];
@@ -79,6 +85,8 @@ class MusicController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $music = $this->getDoctrine()->getRepository('App\Entity\Music')->find($id);
+        $msg = '';
+
         $commentMusic = new CommentMusic();
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
         $form = $this->createForm(CommentMusicType::class, $commentMusic, ['music' => $music, 'users' => $currentUser]);
@@ -88,9 +96,48 @@ class MusicController extends AbstractController
         {
             $em->persist($commentMusic);
             $em->flush();
+            $msg = 'success';
         }
+        $commentaires = $this->getDoctrine()
+            ->getRepository('App\Entity\CommentMusic')
+            ->findBy(['music' =>$music], ['timeMusic' => 'ASC']);
 
-        return $this->render('music/music.html.twig', array('music'=> $music, 'form'=> $form->createView()));
+        return $this->render('music/music.html.twig',
+            array(
+                'music'=> $music,
+                'form'=> $form->createView(),
+                'commentaires' => $commentaires,
+                'message'=>$msg
+            ));
+    }
+
+    /**
+     * @Route("/ajaxComment", name="app_music_comment")
+     */
+    public function ajaxComment(Request $request)
+    {
+        //JAMAIS APPELE A VOIR AVEC JEREMIE POUR METTRE LES COMMENTAIRES EN AJAX
+        $em = $this->getDoctrine()->getManager();
+        $posts = $request->request->all();
+        $idMusic = $posts['idMusic'];
+        $idUser = $posts['idUser'];
+        $commentaire = $posts['commentaire'];
+        $time = $posts['time'];
+        $music = $this->getDoctrine()->getRepository('App\Entity\Music')->find($idMusic);
+        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
+
+        $commentMusic = new CommentMusic();
+        $commentMusic->setComment($commentaire);
+        $commentMusic->setTimeMusic($time);
+
+        $commentMusic->music($music);
+        $commentMusic->users($currentUser);
+
+        $em->persist($currentUser);
+        $em->flush();
+
+
     }
 
 

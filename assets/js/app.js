@@ -16,5 +16,6 @@ require('../css/themify-icons.css');
 var $ = require('jquery');
 require('bootstrap');
 // require('webpack-notifier');
+require('../../node_modules/dnl-integration-crud/js/crud.js');
+require('../../node_modules/dnl-integration-crud/js/layout.js');
 
-console.log('Hello Webpack Encore!  assets/js/app.js');
