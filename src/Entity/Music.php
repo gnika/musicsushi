@@ -25,10 +25,13 @@ class Music
 
     /**
      *
-     * @var Users
-     * @ORM\ManyToOne(targetEntity="Users", inversedBy="musics")
+     * @var user;
+     * @ORM\ManyToOne(targetEntity="Users", inversedBy="musics"))
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *     })
      */
-    private $User;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -101,14 +104,14 @@ class Music
      */
     public function getUser()
     {
-        return $this->User;
+        return $this->user;
     }
 
     /**
      * @param mixed $User
      */
-    public function setUser($User)
+    public function setUser($user)
     {
-        $this->User = $User;
+        $this->user = $user;
     }
 }

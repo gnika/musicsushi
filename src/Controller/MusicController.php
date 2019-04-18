@@ -67,9 +67,10 @@ class MusicController extends AbstractController
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
 
         $user = $this->getDoctrine()->getRepository('App\Entity\Users')->find($currentUser->getId());
+        dump($user->getMusics());
+        $comms = $user->getCommentMusics();
 
-        dump($user);
-        $musics = $em = $this->getDoctrine()->getRepository('App\Entity\Music')->findBy(array('User' => $currentUser));
+        $musics = $em = $this->getDoctrine()->getRepository('App\Entity\Music')->findBy(array('user' => $currentUser));
        if( isset($_GET['message']) )
            $msg = $_GET['message'];
        else

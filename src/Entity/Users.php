@@ -41,17 +41,17 @@ class Users implements UserInterface
     private $apiToken;
 
     /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="User")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="Users")
      */
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity="CommentMusic", mappedBy="User")
+     * @ORM\OneToMany(targetEntity="CommentMusic", mappedBy="users", cascade={"persist", "remove"})
      */
     private $commentMusics;
 
     /**
-     * @ORM\OneToMany(targetEntity="Music", mappedBy="User")
+     * @ORM\OneToMany(targetEntity="App\Entity\Music", mappedBy="user", cascade={"persist", "remove"})
      */
     private $musics;
 
@@ -61,7 +61,7 @@ class Users implements UserInterface
     private $users_friends;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Users", inversedBy="users_friends")
+     * @ORM\ManyToMany(targetEntity="Users", inversedBy="users_friends", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="users_friendask",
      *     joinColumns={@ORM\JoinColumn(name="users_child_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="users_friendask_id", referencedColumnName="id")}
@@ -77,6 +77,19 @@ class Users implements UserInterface
         $this->commentMusics = new ArrayCollection();
         $this->users_friendasks = new ArrayCollection();
         $this->users_friends = new ArrayCollection();
+    }
+
+    /**
+     * Add music.
+     *
+     * @param Music $music
+     *
+     * @return Users
+     */
+    public function addMusic(Music $music)
+    {
+        $this->musics[] = $music;
+        return $this;
     }
 
 
@@ -178,13 +191,13 @@ class Users implements UserInterface
         return $this;
     }
 
-
-
-
-
-
-
-
+    /**
+     * @return mixed
+     */
+    public function getCommentMusics()
+    {
+        return $this->commentMusics;
+    }
 
     // Adding both an adder and a remover as well as updating the reverse relation are mandatory
     // if you want Doctrine to automatically update and persist (thanks to the "cascade" option) the related entity
@@ -213,10 +226,9 @@ class Users implements UserInterface
      */
     public function getMusics(): Collection
     {
-        return $this->musics;
+         //$this->musics[] = 1;
+       return $this->musics;
     }
-
-    // addProduct() and removeProduct() were also added
 
     /**
      * @return mixed
