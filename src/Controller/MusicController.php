@@ -65,12 +65,13 @@ class MusicController extends AbstractController
     public function listmusic(Request $request)
     {
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        //dump($user->getMusics());
+        $comms = $currentUser->getCommentMusics();
+        $usrs = [$currentUser];
+        foreach($currentUser->getUsersFriendasks() as $cur)
+            $usrs[] = $cur;
 
-        $user = $this->getDoctrine()->getRepository('App\Entity\Users')->find($currentUser->getId());
-        dump($user->getMusics());
-        $comms = $user->getCommentMusics();
-
-        $musics = $em = $this->getDoctrine()->getRepository('App\Entity\Music')->findBy(array('user' => $currentUser));
+        $musics = $em = $this->getDoctrine()->getRepository('App\Entity\Music')->findBy(array('user' => $usrs));
        if( isset($_GET['message']) )
            $msg = $_GET['message'];
        else
